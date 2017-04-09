@@ -39,7 +39,23 @@ gulp.task('js', ['common-js'], function() {
 	.pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('browser-sync',['js','sass'], function() {
+gulp.task('sass', function () {
+	return gulp.src('app/scss/*.scss') //берем какие-нибудь файлы, и возвращаем
+				.pipe(sass()) // вызов како-то команды, плагина,
+				.pipe(autoprefixer(['last 15 versions','> 1%','ie 8','ie 7'],{cascade:true}))
+							.pipe(cssnano())
+							.pipe(rename({suffix:'.min'}))
+				.pipe(gulp.dest('app/css')) //выгружаем работу плагина
+				.pipe(browserSync.reload({stream:true})); //инжектим c s s
+}); // инструкция, задача
+gulp.task('css-libs',['sass'], function(){
+	return gulp.src(['app/css/mystyle.css',])
+				.pipe(cssnano())
+				.pipe(rename({suffix:'.min'}))
+				.pipe(gulp.dest('app/css'))
+				.pipe(browserSync.reload({stream: true}));
+});
+gulp.task('browser-sync',['css-libs', 'js'], function() {
 	browserSync.init({
 		/*server: {
 			baseDir: '500303_GULP'
@@ -60,25 +76,16 @@ gulp.task('browser-sync',['js','sass'], function() {
 	.pipe(gulp.dest('500303_GULP/css'))
 	.pipe(browserSync.reload({stream: true}));
 });*/
-gulp.task('sass', function () {
-	return gulp.src('app/scss/*.scss') //берем какие-нибудь файлы, и возвращаем
-				.pipe(sass()) // вызов како-то команды, плагина,
-				.pipe(autoprefixer(['last 15 versions','> 1%','ie 8','ie 7'],{cascade:true}))
-				.pipe(gulp.dest('app/css')) //выгружаем работу плагина
-				.pipe(browserSync.reload({stream:true})); //инжектим c s s
-}); // инструкция, задача
-gulp.task('css-libs',['sass'], function(){
-	return gulp.src(['app/css/mystyle.css',])
-				.pipe(cssnano())
-				.pipe(rename({suffix:'.min'}))
-				.pipe(gulp.dest('app/css'));
-});
-gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
-	gulp.watch('app/scss/**/*.scss', ['sass']);
-	gulp.watch(['app/script/**/*.js', 'app/script/common.min.js'], ['js']);
+gulp.task('watch', ['browser-sync', 'sass', 'js'], function() {
+	//gulp.watch('app/scss/**/*.scss', ['sass']).on('change', browserSync.reload);
+	gulp.watch('app/scss/**/*.scss', ['sass']).on('change', browserSync.reload);
+	//gulp.watch('app/css/**/*.css').on('change', browserSync.reload);
+	gulp.watch(['app/script/**/*.js', 'app/script/common.min.js'], ['js']).on('change', browserSync.reload);
 	//gulp.watch('500303_GULP/*.php', browserSync.reload);
 	gulp.watch('app/**/*.php').on('change', browserSync.reload);
 });
+
+
 
 gulp.task('imagemin', function() {
 	return gulp.src('app/images/**/*')
