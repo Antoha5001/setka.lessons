@@ -12,7 +12,8 @@ var gulp           = require('gulp'),
 		cache          = require('gulp-cache'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
-		notify         = require("gulp-notify");
+		notify         = require("gulp-notify"),
+		srv 						= 'setka.lessons:88';
 
 // Скрипты проекта
 
@@ -43,7 +44,7 @@ gulp.task('browser-sync',['js','sass'], function() {
 		/*server: {
 			baseDir: '500303_GULP'
 		},*/
-		proxy:"500303.gulp:88",
+		proxy: srv,
 		notify: false
 		// tunnel: true,
 		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
@@ -64,7 +65,7 @@ gulp.task('sass', function () {
 				.pipe(sass()) // вызов како-то команды, плагина,
 				.pipe(autoprefixer(['last 15 versions','> 1%','ie 8','ie 7'],{cascade:true}))
 				.pipe(gulp.dest('app/css')) //выгружаем работу плагина
-				.pipe(browserSync.reload({stream:true})) //инжектим css
+				.pipe(browserSync.reload({stream:true})); //инжектим c s s
 }); // инструкция, задача
 gulp.task('css-libs',['sass'], function(){
 	return gulp.src(['app/css/mystyle.css',])
