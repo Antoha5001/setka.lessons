@@ -13,7 +13,7 @@ var gulp           = require('gulp'),
 		autoprefixer   = require('gulp-autoprefixer'),
 		ftp            = require('vinyl-ftp'),
 		notify         = require("gulp-notify"),
-		srv 						= 'setka.lessons:88';
+		srv 						= 'setka.lessons:82';
 
 // Скрипты проекта
 
@@ -77,10 +77,9 @@ gulp.task('browser-sync',['css-libs', 'js'], function() {
 	.pipe(browserSync.reload({stream: true}));
 });*/
 gulp.task('watch', ['browser-sync', 'sass', 'js'], function() {
-	//gulp.watch('app/scss/**/*.scss', ['sass']).on('change', browserSync.reload);
-	gulp.watch('app/scss/**/*.scss', ['sass']).on('change', browserSync.reload);
+	gulp.watch('app/scss/**/*.scss', ['css-libs']);
 	//gulp.watch('app/css/**/*.css').on('change', browserSync.reload);
-	gulp.watch(['app/script/**/*.js', 'app/script/common.min.js'], ['js']).on('change', browserSync.reload);
+	gulp.watch(['app/script/**/*.js', 'app/script/common.min.js'], ['js']);
 	//gulp.watch('500303_GULP/*.php', browserSync.reload);
 	gulp.watch('app/**/*.php').on('change', browserSync.reload);
 });

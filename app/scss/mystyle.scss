@@ -8,9 +8,10 @@
 	font-style: normal;
 }*/
 html, body{
-margin: 20px 0 0 0;
+margin:0;
 background: #232323;
 color: #fff;
+height: 100%;
 }
 .wrapper{
 	max-width: 1280px;
@@ -28,7 +29,7 @@ color: #fff;
 	width: calc(8.3333% - 30px);
 	box-sizing: border-box;
 	text-align: center;
-	background: #666;
+	background: green;
 	margin: 15px;
 }
 .col-lg-1{width:calc(8.333333333333334% - 30px);}
